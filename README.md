@@ -1,1 +1,1 @@
-# ditto-client
+# Eclipse Ditto Client
