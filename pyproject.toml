@@ -9,8 +9,14 @@ authors = [
 requires-python = ">=3.11"
 dependencies = [
     "httpx>=0.28.1",
+    "microsoft-kiota-abstractions>=1.9.7",
+    "microsoft-kiota-http>=1.9.7",
+    "microsoft-kiota-serialization-form>=1.9.7",
+    "microsoft-kiota-serialization-json>=1.9.7",
+    "microsoft-kiota-serialization-multipart>=1.9.7",
+    "microsoft-kiota-serialization-text>=1.9.7",
     "pydantic>=2.11.5",
-    "pydantic-settings>=2.9.1"
+    "pydantic-settings>=2.9.1",
 ]
 
 classifiers = [
@@ -51,6 +57,14 @@ line-length = 120
 fix = true
 target-version = "py311"
 
+exclude = [
+    "src/ditto_client/api",
+    "src/ditto_client/devops",
+    "src/ditto_client/models",
+    "src/ditto_client/ditto_client.py",
+
+]
+
 [tool.ruff.format]
 docstring-code-format = true
 
@@ -87,3 +101,6 @@ include = ["src", "tests", "samples"]
 # typeCheckingMode = "strict"
 reportUnnecessaryIsInstance = false
 reportMissingTypeStubs = false
+
+[tool.poe.tasks.generate-kiota-client]
+cmd = "docker run -v $PWD/src/ditto_client:/app/output -v $PWD/assets/release-3.7/ditto-api-2.yml:/app/openapi.yaml mcr.microsoft.com/openapi/kiota generate -l python -c DittoClient"

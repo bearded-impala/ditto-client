@@ -67,6 +67,12 @@ version = "0.0.1"
 source = { editable = "." }
 dependencies = [
     { name = "httpx" },
+    { name = "microsoft-kiota-abstractions" },
+    { name = "microsoft-kiota-http" },
+    { name = "microsoft-kiota-serialization-form" },
+    { name = "microsoft-kiota-serialization-json" },
+    { name = "microsoft-kiota-serialization-multipart" },
+    { name = "microsoft-kiota-serialization-text" },
     { name = "pydantic" },
     { name = "pydantic-settings" },
 ]
@@ -88,6 +94,12 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "httpx", specifier = ">=0.28.1" },
+    { name = "microsoft-kiota-abstractions", specifier = ">=1.9.7" },
+    { name = "microsoft-kiota-http", specifier = ">=1.9.7" },
+    { name = "microsoft-kiota-serialization-form", specifier = ">=1.9.7" },
+    { name = "microsoft-kiota-serialization-json", specifier = ">=1.9.7" },
+    { name = "microsoft-kiota-serialization-multipart", specifier = ">=1.9.7" },
+    { name = "microsoft-kiota-serialization-text", specifier = ">=1.9.7" },
     { name = "pydantic", specifier = ">=2.11.5" },
     { name = "pydantic-settings", specifier = ">=2.9.1" },
 ]
@@ -134,6 +146,28 @@ wheels = [
 ]
 
 [[package]]
+name = "h2"
+version = "4.3.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "hpack" },
+    { name = "hyperframe" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/1d/17/afa56379f94ad0fe8defd37d6eb3f89a25404ffc71d4d848893d270325fc/h2-4.3.0.tar.gz", hash = "sha256:6c59efe4323fa18b47a632221a1888bd7fde6249819beda254aeca909f221bf1", size = 2152026, upload-time = "2025-08-23T18:12:19.778Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/69/b2/119f6e6dcbd96f9069ce9a2665e0146588dc9f88f29549711853645e736a/h2-4.3.0-py3-none-any.whl", hash = "sha256:c438f029a25f7945c69e0ccf0fb951dc3f73a5f6412981daee861431b70e2bdd", size = 61779, upload-time = "2025-08-23T18:12:17.779Z" },
+]
+
+[[package]]
+name = "hpack"
+version = "4.1.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/2c/48/71de9ed269fdae9c8057e5a4c0aa7402e8bb16f2c6e90b3aa53327b113f8/hpack-4.1.0.tar.gz", hash = "sha256:ec5eca154f7056aa06f196a557655c5b009b382873ac8d1e66e79e87535f1dca", size = 51276, upload-time = "2025-01-22T21:44:58.347Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/07/c6/80c95b1b2b94682a72cbdbfb85b81ae2daffa4291fbfa1b1464502ede10d/hpack-4.1.0-py3-none-any.whl", hash = "sha256:157ac792668d995c657d93111f46b4535ed114f0c9c8d672271bbec7eae1b496", size = 34357, upload-time = "2025-01-22T21:44:56.92Z" },
+]
+
+[[package]]
 name = "httpcore"
 version = "1.0.9"
 source = { registry = "https://pypi.org/simple" }
@@ -161,6 +195,20 @@ wheels = [
     { url = "https://files.pythonhosted.org/packages/2a/39/e50c7c3a983047577ee07d2a9e53faf5a69493943ec3f6a384bdc792deb2/httpx-0.28.1-py3-none-any.whl", hash = "sha256:d909fcccc110f8c7faf814ca82a9a4d816bc5a6dbfea25d6591d6985b8ba59ad", size = 73517, upload-time = "2024-12-06T15:37:21.509Z" },
 ]
 
+[package.optional-dependencies]
+http2 = [
+    { name = "h2" },
+]
+
+[[package]]
+name = "hyperframe"
+version = "6.1.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/02/e7/94f8232d4a74cc99514c13a9f995811485a6903d48e5d952771ef6322e30/hyperframe-6.1.0.tar.gz", hash = "sha256:f630908a00854a7adeabd6382b43923a4c4cd4b821fcb527e6ab9e15382a3b08", size = 26566, upload-time = "2025-01-22T21:41:49.302Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/48/30/47d0bf6072f7252e6521f3447ccfa40b421b6824517f82854703d0f5a98b/hyperframe-6.1.0-py3-none-any.whl", hash = "sha256:b03380493a519fce58ea5af42e4a42317bf9bd425596f7a0835ffce80f1a42e5", size = 13007, upload-time = "2025-01-22T21:41:47.295Z" },
+]
+
 [[package]]
 name = "identify"
 version = "2.6.14"
@@ -180,12 +228,101 @@ wheels = [
 ]
 
 [[package]]
+name = "importlib-metadata"
+version = "8.7.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "zipp" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/76/66/650a33bd90f786193e4de4b3ad86ea60b53c89b669a5c7be931fac31cdb0/importlib_metadata-8.7.0.tar.gz", hash = "sha256:d13b81ad223b890aa16c5471f2ac3056cf76c5f10f82d6f9292f0b415f389000", size = 56641, upload-time = "2025-04-27T15:29:01.736Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/20/b0/36bd937216ec521246249be3bf9855081de4c5e06a0c9b4219dbeda50373/importlib_metadata-8.7.0-py3-none-any.whl", hash = "sha256:e5dd1551894c77868a30651cef00984d50e1002d06942a7101d34870c5f02afd", size = 27656, upload-time = "2025-04-27T15:29:00.214Z" },
+]
+
+[[package]]
 name = "iniconfig"
 version = "2.1.0"
 source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/f2/97/ebf4da567aa6827c909642694d71c9fcf53e5b504f2d96afea02718862f3/iniconfig-2.1.0.tar.gz", hash = "sha256:3abbd2e30b36733fee78f9c7f7308f2d0050e88f0087fd25c2645f63c773e1c7", size = 4793, upload-time = "2025-03-19T20:09:59.721Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/2c/e1/e6716421ea10d38022b952c159d5161ca1193197fb744506875fbb87ea7b/iniconfig-2.1.0-py3-none-any.whl", hash = "sha256:9deba5723312380e77435581c6bf4935c94cbfab9b1ed33ef8d238ea168eb760", size = 6050, upload-time = "2025-03-19T20:10:01.071Z" },
+]
+
+[[package]]
+name = "microsoft-kiota-abstractions"
+version = "1.9.7"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "opentelemetry-api" },
+    { name = "opentelemetry-sdk" },
+    { name = "std-uritemplate" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/6d/6c/fd855a03545ae261b28d179b206e5f80a0e7c95fac5a580514c4dabedca0/microsoft_kiota_abstractions-1.9.7.tar.gz", hash = "sha256:731ed60c2df74ca80d1bf36d40a4c390aab353db3a76796c63ea9e9a220ce65c", size = 24447, upload-time = "2025-09-09T13:53:42.631Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/37/d8/d699a2cb209c72f1258af5f582a7868d1b006e57cc4394b68b0f996ba370/microsoft_kiota_abstractions-1.9.7-py3-none-any.whl", hash = "sha256:8add66c38d05ab9a496c1c843bb16e04b70edc4651dc290b9629b14009f5c0c0", size = 44404, upload-time = "2025-09-09T13:53:41.312Z" },
+]
+
+[[package]]
+name = "microsoft-kiota-http"
+version = "1.9.7"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "httpx", extra = ["http2"] },
+    { name = "microsoft-kiota-abstractions" },
+    { name = "opentelemetry-api" },
+    { name = "opentelemetry-sdk" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/60/a9/7efe67311902394a208545ae067dfc7e957383939b0ee6ff43e1955afbe7/microsoft_kiota_http-1.9.7.tar.gz", hash = "sha256:abcacca784649308ab93d8578c2afb581a42deed048b183d7bbdc48c325dd6a1", size = 21249, upload-time = "2025-09-09T13:54:00.45Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/83/99/1d625b9353cabb3aaddb468c379b1e1fc726795281e94437096846b434b1/microsoft_kiota_http-1.9.7-py3-none-any.whl", hash = "sha256:14ce6b14c4fa93608f535f2c6ae21d35b1d0e2635ab70501fa3a3afc90135261", size = 31577, upload-time = "2025-09-09T13:53:59.616Z" },
+]
+
+[[package]]
+name = "microsoft-kiota-serialization-form"
+version = "1.9.7"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "microsoft-kiota-abstractions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/0a/d7/dc6d782f75608be4b1733df6592e4c7e819b6e32b290ac45304f74c0c0cf/microsoft_kiota_serialization_form-1.9.7.tar.gz", hash = "sha256:d3297a60778c0437513334b703225ce108fd109f13c1993afea599b85dc5a528", size = 8999, upload-time = "2025-09-09T13:54:08.924Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/97/62/9929fc1fe0ff76af5ff6dd8179b71c58105675465536141cd491e03f5a1d/microsoft_kiota_serialization_form-1.9.7-py3-none-any.whl", hash = "sha256:72d2dc5e57a993145702870ad89c85cebe3336d4d34f231d951ee1bc83ad11b9", size = 10671, upload-time = "2025-09-09T13:54:08.169Z" },
+]
+
+[[package]]
+name = "microsoft-kiota-serialization-json"
+version = "1.9.7"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "microsoft-kiota-abstractions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/b9/f8/e13c48e610a00f2abfa9fa19f03e2cf21fe98486dfc5a453ce6c0490d3f2/microsoft_kiota_serialization_json-1.9.7.tar.gz", hash = "sha256:1e54ff90b185fe21cca94ebbf8468bf44a2ca5f082c4cf04dbd2d42a9472837a", size = 9416, upload-time = "2025-09-09T13:54:18.299Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/11/6b/761e45c91086fb45e69ee1b85d538f6e5fc89b86f6ade148e8c5575259ce/microsoft_kiota_serialization_json-1.9.7-py3-none-any.whl", hash = "sha256:6f44012f00cf7c4c4d8b9195e7f8a691d186021b5d9a20e791a77c800b5be531", size = 11056, upload-time = "2025-09-09T13:54:17.395Z" },
+]
+
+[[package]]
+name = "microsoft-kiota-serialization-multipart"
+version = "1.9.7"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "microsoft-kiota-abstractions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/9d/23/31b11fd0e44bb79923ea8310c2f3d0bc1e16f56d35d2fc73203a260a0a73/microsoft_kiota_serialization_multipart-1.9.7.tar.gz", hash = "sha256:1a13d193d078dea86711d8c6e89ac142aff5033079c7be4061279b2da5c83ef8", size = 5150, upload-time = "2025-09-09T13:54:35.551Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/b1/ca/98efd66c8e7180928fe2901f4c766799991836e536a8a0aca9186b5d7c7a/microsoft_kiota_serialization_multipart-1.9.7-py3-none-any.whl", hash = "sha256:cd72ee004039ee64a35bd5254afd3f8bc89877e948282ab0fe0a7efab75f68bb", size = 6651, upload-time = "2025-09-09T13:54:34.811Z" },
+]
+
+[[package]]
+name = "microsoft-kiota-serialization-text"
+version = "1.9.7"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "microsoft-kiota-abstractions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/24/5c/479378981c7b8fb22d6ba693f07db457a18d3efc86dd083ebe31d6192d37/microsoft_kiota_serialization_text-1.9.7.tar.gz", hash = "sha256:d57a082d5c6ea1e650286314cac9a9e7a2662aa4beb80635bf4addd33d252bd5", size = 7306, upload-time = "2025-09-09T13:54:26.45Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/d9/8b/b8b6482719d9ecc4d87f07aa8726d33c18004e0630ef5cd2891ee8bf2ada/microsoft_kiota_serialization_text-1.9.7-py3-none-any.whl", hash = "sha256:47c4d774883bec269a6eb077a5ca2f26ae6715986c8defa374d536a9664dc43e", size = 8840, upload-time = "2025-09-09T13:54:25.642Z" },
 ]
 
 [[package]]
@@ -242,6 +379,46 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/43/16/fc88b08840de0e0a72a2f9d8c6bae36be573e475a6326ae854bcc549fc45/nodeenv-1.9.1.tar.gz", hash = "sha256:6ec12890a2dab7946721edbfbcd91f3319c6ccc9aec47be7c7e6b7011ee6645f", size = 47437, upload-time = "2024-06-04T18:44:11.171Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/d2/1d/1b658dbd2b9fa9c4c9f32accbfc0205d532c8c6194dc0f2a4c0428e7128a/nodeenv-1.9.1-py2.py3-none-any.whl", hash = "sha256:ba11c9782d29c27c70ffbdda2d7415098754709be8a7056d79a737cd901155c9", size = 22314, upload-time = "2024-06-04T18:44:08.352Z" },
+]
+
+[[package]]
+name = "opentelemetry-api"
+version = "1.37.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "importlib-metadata" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/63/04/05040d7ce33a907a2a02257e601992f0cdf11c73b33f13c4492bf6c3d6d5/opentelemetry_api-1.37.0.tar.gz", hash = "sha256:540735b120355bd5112738ea53621f8d5edb35ebcd6fe21ada3ab1c61d1cd9a7", size = 64923, upload-time = "2025-09-11T10:29:01.662Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/91/48/28ed9e55dcf2f453128df738210a980e09f4e468a456fa3c763dbc8be70a/opentelemetry_api-1.37.0-py3-none-any.whl", hash = "sha256:accf2024d3e89faec14302213bc39550ec0f4095d1cf5ca688e1bfb1c8612f47", size = 65732, upload-time = "2025-09-11T10:28:41.826Z" },
+]
+
+[[package]]
+name = "opentelemetry-sdk"
+version = "1.37.0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "opentelemetry-api" },
+    { name = "opentelemetry-semantic-conventions" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/f4/62/2e0ca80d7fe94f0b193135375da92c640d15fe81f636658d2acf373086bc/opentelemetry_sdk-1.37.0.tar.gz", hash = "sha256:cc8e089c10953ded765b5ab5669b198bbe0af1b3f89f1007d19acd32dc46dda5", size = 170404, upload-time = "2025-09-11T10:29:11.779Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/9f/62/9f4ad6a54126fb00f7ed4bb5034964c6e4f00fcd5a905e115bd22707e20d/opentelemetry_sdk-1.37.0-py3-none-any.whl", hash = "sha256:8f3c3c22063e52475c5dbced7209495c2c16723d016d39287dfc215d1771257c", size = 131941, upload-time = "2025-09-11T10:28:57.83Z" },
+]
+
+[[package]]
+name = "opentelemetry-semantic-conventions"
+version = "0.58b0"
+source = { registry = "https://pypi.org/simple" }
+dependencies = [
+    { name = "opentelemetry-api" },
+    { name = "typing-extensions" },
+]
+sdist = { url = "https://files.pythonhosted.org/packages/aa/1b/90701d91e6300d9f2fb352153fb1721ed99ed1f6ea14fa992c756016e63a/opentelemetry_semantic_conventions-0.58b0.tar.gz", hash = "sha256:6bd46f51264279c433755767bb44ad00f1c9e2367e1b42af563372c5a6fa0c25", size = 129867, upload-time = "2025-09-11T10:29:12.597Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/07/90/68152b7465f50285d3ce2481b3aec2f82822e3f52e5152eeeaf516bab841/opentelemetry_semantic_conventions-0.58b0-py3-none-any.whl", hash = "sha256:5564905ab1458b96684db1340232729fce3b5375a06e140e8904c78e4f815b28", size = 207954, upload-time = "2025-09-11T10:28:59.218Z" },
 ]
 
 [[package]]
@@ -568,6 +745,15 @@ wheels = [
 ]
 
 [[package]]
+name = "std-uritemplate"
+version = "2.0.5"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/74/cc/f3d2e47d2fe828da95321ab0f4ac54e4a02294c86832469de33a048f6061/std_uritemplate-2.0.5.tar.gz", hash = "sha256:7703a886cce59d155c21b5acf1ad8d48db9f3322de98fa783a8396fbf35cbc06", size = 6015, upload-time = "2025-05-14T13:10:36.139Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/7e/21/479d27b4597c6bf278e794ccceae40f721bc1cb0ff66a30ecb9bfb61ac9a/std_uritemplate-2.0.5-py3-none-any.whl", hash = "sha256:0f5184f8e6f315a01f92cfbed335f62f087e453e79cd586b67a724211e686c28", size = 6509, upload-time = "2025-05-14T13:10:34.983Z" },
+]
+
+[[package]]
 name = "typing-extensions"
 version = "4.15.0"
 source = { registry = "https://pypi.org/simple" }
@@ -600,4 +786,13 @@ dependencies = [
 sdist = { url = "https://files.pythonhosted.org/packages/1c/14/37fcdba2808a6c615681cd216fecae00413c9dab44fb2e57805ecf3eaee3/virtualenv-20.34.0.tar.gz", hash = "sha256:44815b2c9dee7ed86e387b842a84f20b93f7f417f95886ca1996a72a4138eb1a", size = 6003808, upload-time = "2025-08-13T14:24:07.464Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/76/06/04c8e804f813cf972e3262f3f8584c232de64f0cde9f703b46cf53a45090/virtualenv-20.34.0-py3-none-any.whl", hash = "sha256:341f5afa7eee943e4984a9207c025feedd768baff6753cd660c857ceb3e36026", size = 5983279, upload-time = "2025-08-13T14:24:05.111Z" },
+]
+
+[[package]]
+name = "zipp"
+version = "3.23.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/e3/02/0f2892c661036d50ede074e376733dca2ae7c6eb617489437771209d4180/zipp-3.23.0.tar.gz", hash = "sha256:a07157588a12518c9d4034df3fbbee09c814741a33ff63c05fa29d26a2404166", size = 25547, upload-time = "2025-06-08T17:06:39.4Z" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/2e/54/647ade08bf0db230bfea292f893923872fd20be6ac6f53b2b936ba839d75/zipp-3.23.0-py3-none-any.whl", hash = "sha256:071652d6115ed432f5ce1d34c336c0adfd6a884660d1e9712a256d3d3bd4b14e", size = 10276, upload-time = "2025-06-08T17:06:38.034Z" },
 ]
