@@ -50,6 +50,7 @@ dev = [
     "mypy>=1.10.0",
     "ruff>=0.4.8",
     "pre-commit>=4.3.0",
+    "rich>=14.1.0",
 ]
 
 [tool.ruff]
