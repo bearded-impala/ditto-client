@@ -14,7 +14,7 @@ async def main() -> None:
     auth_provider = BasicAuthProvider(user_name=_USERNAME, password=_PASSWORD)
 
     request_adapter = HttpxRequestAdapter(auth_provider)
-    request_adapter.base_url = "http://localhost:8080"
+    request_adapter.base_url = "http://host.docker.internal:8080"
 
     ditto_client = DittoClient(request_adapter)
 

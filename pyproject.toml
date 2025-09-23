@@ -104,4 +104,9 @@ reportUnnecessaryIsInstance = false
 reportMissingTypeStubs = false
 
 [tool.poe.tasks.generate-kiota-client]
-cmd = "docker run -v $PWD/src/ditto_client:/app/output -v $PWD/assets/release-3.7/ditto-api-2.yml:/app/openapi.yaml mcr.microsoft.com/openapi/kiota generate -l python -c DittoClient"
+help = "Generate the client code using Kiota"
+cmd = "docker run -v $PWD/src/ditto_client:/app/output -v $PWD/assets/ditto/openapi/ditto-api-2.yml:/app/openapi.yaml mcr.microsoft.com/openapi/kiota generate -l python -c DittoClient"
+
+[tool.poe.tasks.ditto-deployment]
+help = "Run the Ditto Services"
+cmd = "docker compose -f assets/ditto/docker-compose.yaml"

@@ -10,13 +10,25 @@ This repository is the python client generated using Microsoft Kiota ([https://g
 uv add ditto-client
 ```
 
+## Running Ditto
+
+A sample docker compose is provided as part of this repository.
+
+You must run the ditto services outside the devcontainer as they consume lot of resources.
+
+```bash
+# outside your devcontainer (i.e. on your host)
+# at <your_path>/ditto-client dir
+docker compose -f assets/ditto/docker-compose.yaml up
+```
+
 ## Usage
 
 ```python
 auth_provider = BasicAuthProvider(user_name=_USERNAME, password=_PASSWORD)
 
 request_adapter = HttpxRequestAdapter(auth_provider)
-request_adapter.base_url = "http://localhost:8080"
+request_adapter.base_url = "http://host.docker.internal:8080"
 
 ditto_client = DittoClient(request_adapter)
 
