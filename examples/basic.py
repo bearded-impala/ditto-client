@@ -4,7 +4,7 @@ from kiota_http.httpx_request_adapter import HttpxRequestAdapter
 from rich import print as rprint
 
 from ditto_client.basic_auth import BasicAuthProvider
-from ditto_client.ditto_client import DittoClient
+from ditto_client.generated.ditto_client import DittoClient
 
 _USERNAME = "ditto"
 _PASSWORD = "ditto"
