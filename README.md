@@ -10,10 +10,20 @@ This repository is the python client generated using Microsoft Kiota ([https://g
 uv add ditto-client
 ```
 
-## Basic Authentication
+## Usage
 
-Default setup for Ditto uses Ngix with basic authentication.
+```python
+auth_provider = BasicAuthProvider(user_name=_USERNAME, password=_PASSWORD)
 
-A custom authentication provider (src/ditto_client/basic_auth.py) has been included to support it.
+request_adapter = HttpxRequestAdapter(auth_provider)
+request_adapter.base_url = "http://localhost:8080"
 
-[See examples/basic.py for the usage](examples/basic.py)
+ditto_client = DittoClient(request_adapter)
+
+response = await ditto_client.api.two.things.get()
+```
+
+Default setup for Ditto uses Ngix with basic authentication. A custom authentication provider has been included
+in the library to support it. See [BasicAuth Provider](src/ditto_client/basic_auth.py).
+
+[See examples/basic.py for the full usage](examples/basic.py)
