@@ -137,11 +137,11 @@ def update(
 @thing_app.command()
 def delete(
     thing_id: str = typer.Argument(..., help="The ID of the thing to delete"),
-    confirm: bool = typer.Option(False, "--confirm", help="Skip confirmation prompt"),
+    force: bool = typer.Option(False, "--force", help="Skip confirmation prompt"),
 ) -> None:
     """Delete a thing."""
 
-    if not confirm:
+    if not force:
         if not typer.confirm(f"Are you sure you want to delete thing '{thing_id}'?"):
             rprint("[yellow]Operation cancelled[/yellow]")
             return
