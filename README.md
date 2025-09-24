@@ -46,14 +46,15 @@ The Ditto client includes a comprehensive CLI for interacting with Eclipse Ditto
 
 | Command Group | Description |
 |---------------|-------------|
-| `things` | Manage things (digital twins) |
-| `policies` | Manage access policies |
+| `policy` | Manage access policies |
+| `thing` | Manage things (digital twins) |
 | `search` | Search for things |
-| `connections` | Manage connections |
+| `connection` | Manage connections |
+| `devops` | DevOps operations |
+| `permission` | Check permissions |
 | `config` | View service configuration |
 | `logging` | Manage logging configuration |
-| `permission` | Check permissions |
-| `devops` | DevOps operations |
+
 
 ### Global Configuration
 
@@ -113,53 +114,65 @@ ditto-client policy delete "my.namespace:my-policy"
 
 #### Create a new thing.
 
-`ditto-client things create <thing_id> <data_file>`
+`ditto-client thing create <thing_id> <data_file>`
 
 ```bash
 # Create a new thing
-ditto-client things create "my.namespace:new-thing" examples/cli-examples/thing.json
+ditto-client thing create "my.namespace:new-thing" examples/cli-examples/thing.json
 ```
 
 #### List all things with optional filtering.
 
-`ditto-client things list`
+`ditto-client thing list`
 
 ```bash
 # List all things
-ditto-client things list
+ditto-client thing list
 
 # List things with specific fields
-ditto-client things list --fields "thingId,attributes"
+ditto-client thing list --fields "thingId,attributes"
 
 # List specific things by ID
-ditto-client things list --ids "my.namespace:new-thing"
+ditto-client thing list --ids "my.namespace:new-thing"
 ```
 
 #### Retrieve a specific thing by ID.
 
-`ditto-client things get <thing_id>`
+`ditto-client thing get <thing_id> [--revision <revision>]`
 
 ```bash
 # Get a specific thing
-ditto-client things get "my.namespace:my-thing"
+ditto-client thing get "my.namespace:my-thing"
+
+# Get a specific revision of a thing
+ditto-client thing get "my.namespace:my-thing" --revision 1
 ```
 
 #### Update a thing using JSON file.
 
-`ditto-client things update <thing_id> <patch_file>`
+`ditto-client thing update <thing_id> <patch_file>`
 
 ```bash
 # Update a thing
-ditto-client things update "my.namespace:my-thing" examples/cli-examples/thing.json
+ditto-client thing update "my.namespace:my-thing" examples/cli-examples/thing.json
+```
+
+#### Compare current thing with historical revision.
+
+`ditto-client thing diff <thing_id> <revision>`
+
+```bash
+# Compare current state with revision 1
+ditto-client thing diff "my.namespace:my-thing" 1
 ```
 
 #### Delete a thing.
 
-`ditto-client things delete <thing_id>`
+`ditto-client thing delete <thing_id>`
 
 ```bash
 # Delete a thing
-ditto-client things delete "my.namespace:my-thing"
+ditto-client thing delete "my.namespace:my-thing"
 ```
 
 ---
