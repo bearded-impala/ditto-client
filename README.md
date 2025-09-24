@@ -44,16 +44,16 @@ in the library to support it. See [BasicAuth Provider](src/ditto_client/basic_au
 
 The Ditto client includes a comprehensive CLI for interacting with Eclipse Ditto services. The CLI provides the following commands:
 
-| Command Group | Description | Credentials Used |
-|---------------|-------------|------------------|
-| `things` | Manage things (digital twins) | Standard (`ditto:ditto`) |
-| `policies` | Manage access policies | Standard (`ditto:ditto`) |
-| `search` | Search for things | Standard (`ditto:ditto`) |
-| `connections` | Manage connections | DevOps (`devops:foobar`) |
-| `config` | View service configuration | DevOps (`devops:foobar`) |
-| `logging` | Manage logging configuration | DevOps (`devops:foobar`) |
-| `permission` | Check permissions | DevOps (`ditto:ditto`) |
-| `devops` | DevOps operations | Standard (`ditto:ditto`) |
+| Command Group | Description |
+|---------------|-------------|
+| `things` | Manage things (digital twins) |
+| `policies` | Manage access policies |
+| `search` | Search for things |
+| `connections` | Manage connections |
+| `config` | View service configuration |
+| `logging` | Manage logging configuration |
+| `permission` | Check permissions |
+| `devops` | DevOps operations |
 
 ### Global Configuration
 
@@ -69,46 +69,60 @@ export DITTO_DEVOPS_PASSWORD="foobar"
 
 ---
 
-### Create Policy
+### Policy Management
 
-#### `ditto-client policy create <policy_id> <policy_file>`
-Create a new policy.
+#### Create a new policy.
+
+`ditto-client policy create <policy_id> <policy_file>`
 
 ```bash
 # Create a new policy
 ditto-client policy create "my.namespace:new-policy" examples/cli-examples/policy.json
 ```
 
-#### `ditto-client policy get <policy_id>`
-Retrieve a specific policy by ID.
+#### Retrieve a specific policy by ID.
+
+`ditto-client policy get <policy_id>`
 
 ```bash
 # Get a policy
 ditto-client policy get "my.namespace:my-policy"
 ```
 
-#### `ditto-client policy entries <policy_id>`
-List policy entries.
+#### List policy entries.
+
+`ditto-client policy entries <policy_id>`
 
 ```bash
 # List all policy entries
 ditto-client policy entries "my.namespace:my-policy"
 ```
 
+#### Delete policy.
+
+`ditto-client policy delete <policy_id>`
+
+```bash
+# Delete a policy
+ditto-client policy delete "my.namespace:my-policy"
+```
+
 ---
 
 ### Things Management
 
-#### `ditto-client things create <thing_id> <data_file>`
-Create a new thing.
+#### Create a new thing.
+
+`ditto-client things create <thing_id> <data_file>`
 
 ```bash
 # Create a new thing
 ditto-client things create "my.namespace:new-thing" examples/cli-examples/thing.json
 ```
 
-#### `ditto-client things list`
-List all things with optional filtering.
+#### List all things with optional filtering.
+
+`ditto-client things list`
 
 ```bash
 # List all things
@@ -121,28 +135,40 @@ ditto-client things list --fields "thingId,attributes"
 ditto-client things list --ids "my.namespace:new-thing"
 ```
 
-#### `ditto-client things get <thing_id>`
-Retrieve a specific thing by ID.
+#### Retrieve a specific thing by ID.
+
+`ditto-client things get <thing_id>`
 
 ```bash
 # Get a specific thing
 ditto-client things get "my.namespace:my-thing"
 ```
 
-#### `ditto-client things update <thing_id> <patch_file>`
-Update a thing using JSON patch.
+#### Update a thing using JSON file.
+
+`ditto-client things update <thing_id> <patch_file>`
 
 ```bash
 # Update a thing
 ditto-client things update "my.namespace:my-thing" examples/cli-examples/thing.json
 ```
 
+#### Delete a thing.
+
+`ditto-client things delete <thing_id>`
+
+```bash
+# Delete a thing
+ditto-client things delete "my.namespace:my-thing"
+```
+
 ---
 
 ### Search Operations
 
-#### `ditto-client search query`
-Search for things using RQL (Resource Query Language).
+#### Search for things using RQL (Resource Query Language).
+
+`ditto-client search query`
 
 ```bash
 # Search all things
@@ -158,8 +184,9 @@ ditto-client search query --option "size(3),sort(+thingId)"
 ditto-client search query --namespaces "my.namespace"
 ```
 
-#### `ditto-client search count`
-Count things matching search criteria.
+#### Count things matching search criteria.
+
+`ditto-client search count`
 
 ```bash
 # Count all things
@@ -173,16 +200,18 @@ ditto-client search count --filter 'eq(attributes/location,"Kitchen")'
 
 ### Connection Management (DevOps)
 
-#### `ditto-client connection create <connection_id>`
-Create a new connection.
+#### Create a new connection.
+
+`ditto-client connection create <connection_id>`
 
 ```bash
 # Create a connection
 ditto-client connection create "new-connection" --definition "connection-config"
 ```
 
-#### `ditto-client connection list`
-List all connections.
+#### List all connections.
+
+`ditto-client connection list`
 
 ```bash
 # List all connections
@@ -192,8 +221,9 @@ ditto-client connection list
 ditto-client connection list --fields "id,connectionStatus"
 ```
 
-#### `ditto-client connection get <connection_id>`
-Retrieve a specific connection by ID.
+#### Retrieve a specific connection by ID.
+
+`ditto-client connection get <connection_id>`
 
 ```bash
 # Get a connection
@@ -203,28 +233,9 @@ ditto-client connection get "my-connection"
 ditto-client connection get "my-connection" --fields "id,status"
 ```
 
----
+#### Delete a connection.
 
-### **CLEAN UP**
-
-#### `ditto-client policy delete <policy_id>`
-Delete policy.
-
-```bash
-# Delete a policy
-ditto-client policy delete "my.namespace:my-policy"
-```
-
-#### `ditto-client things delete <thing_id>`
-Delete a thing.
-
-```bash
-# Delete a thing
-ditto-client things delete "my.namespace:my-thing"
-```
-
-#### `ditto-client connection delete <connection_id>`
-Delete a connection.
+`ditto-client connection delete <connection_id>`
 
 ```bash
 # Delete a connection
@@ -235,8 +246,7 @@ ditto-client connection delete "my-connection"
 
 ### Configuration Management (DevOps)
 
-#### `ditto-client config get`
-Retrieve service configuration.
+#### Retrieve service configuration.
 
 ```bash
 # Get all configuration
@@ -247,8 +257,9 @@ ditto-client config get
 
 ### Logging Management (DevOps)
 
-#### `ditto-client logging get`
-Retrieve logging configuration.
+#### Retrieve logging configuration.
+
+`ditto-client logging get`
 
 ```bash
 # Get logging configuration
@@ -258,8 +269,9 @@ ditto-client logging get
 ditto-client logging get --module "gateway"
 ```
 
-#### `ditto-client logging update <update_file>`
-Update logging configuration.
+#### Update logging configuration.
+
+`ditto-client logging update <update_file>`
 
 ```bash
 # Update logging configuration
@@ -270,8 +282,9 @@ ditto-client logging update examples/cli-examples/logging.json
 
 ### Permission Management (DevOps)
 
-#### `ditto-client permission check <request_file>`
-Check permissions on specified resources.
+#### Check permissions on specified resources.
+
+`ditto-client permission check <request_file>`
 
 ```bash
 # Check permissions
@@ -282,8 +295,7 @@ ditto-client permission check examples/cli-examples/permission.json
 
 ### DevOps Operations
 
-#### `ditto-client devops whoami`
-Get current user information.
+#### Get current user information.
 
 ```bash
 # Get current user info
