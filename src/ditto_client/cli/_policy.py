@@ -9,7 +9,7 @@ import typer
 from rich import print as rprint
 from typer import Typer
 
-from ditto_client.generated.models.policy import Policy
+from ditto_client.generated.models.new_policy import NewPolicy
 
 from ._utils import create_ditto_client
 
@@ -50,7 +50,7 @@ def create(
         policy_data = json.loads(policy_file.read_text())
 
         # Create the new policy
-        new_policy = Policy(**policy_data)
+        new_policy = NewPolicy(**policy_data)
 
         response = await client.api.two.policies.by_policy_id(policy_id).put(body=new_policy)
 

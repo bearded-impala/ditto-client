@@ -65,12 +65,13 @@ def query(
         table.add_column("Thing ID", justify="left", style="cyan", no_wrap=True)
         table.add_column("Features", justify="center", style="yellow")
 
-        for thing in response.items:
-            # Features is a Features object, not a dict, so we need to check if it has any data
-            features_count = (
-                len(thing.features.additional_data) if thing.features and thing.features.additional_data else 0
-            )
-            table.add_row(thing.thing_id, str(features_count))
+        if response.items:
+            for thing in response.items:
+                # Features is a Features object, not a dict, so we need to check if it has any data
+                features_count = (
+                    len(thing.features.additional_data) if thing.features and thing.features.additional_data else 0
+                )
+                table.add_row(thing.thing_id, str(features_count))
 
         console = Console()
         console.print(table)

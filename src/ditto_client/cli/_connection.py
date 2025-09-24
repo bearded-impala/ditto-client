@@ -122,8 +122,7 @@ def create(
         # Create the new connection
         new_connection = NewConnection(additional_data=connection_data)
 
-        response = await client.api.two.connections.by_connection_id(connection_id).put(body=new_connection)
-        rprint(response)
+        await client.api.two.connections.by_connection_id(connection_id).put(body=new_connection)
 
     asyncio.run(_run())
 
