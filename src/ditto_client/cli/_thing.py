@@ -50,8 +50,8 @@ def list(
     fields: Optional[str] = typer.Option(
         None, "--fields", "-f", help="Comma-separated list of fields to include (e.g., 'thingId,attributes,features')"
     ),
-    ids: Optional[str] = typer.Option(None, "--ids", help="Comma-separated list of thing IDs to retrieve"),
-    timeout: Optional[str] = typer.Option(None, "--timeout", "-t", help="Request timeout (e.g., '30s', '1m')"),
+    ids: Optional[str] = typer.Option(None, help="Comma-separated list of thing IDs to retrieve"),
+    timeout: Optional[str] = typer.Option(None, help="Request timeout (e.g., '30s', '1m')"),
 ) -> None:
     """List things from Ditto."""
 
@@ -98,7 +98,7 @@ def list(
 @thing_app.command()
 def get(
     thing_id: str = typer.Argument(..., help="The ID of the thing to retrieve"),
-    revision: Optional[int] = typer.Option(None, "--revision", "-r", help="Historical revision number to retrieve"),
+    revision: Optional[int] = typer.Option(None, help="Historical revision number to retrieve"),
 ) -> None:
     """Get a specific thing by ID."""
 
@@ -208,7 +208,7 @@ def diff(
 @thing_app.command()
 def delete(
     thing_id: str = typer.Argument(..., help="The ID of the thing to delete"),
-    force: bool = typer.Option(False, "--force", help="Skip confirmation prompt"),
+    force: bool = typer.Option(False, help="Skip confirmation prompt"),
 ) -> None:
     """Delete a thing."""
 

@@ -21,16 +21,12 @@ search_app = Typer()
 @search_app.command()
 def query(
     filter: Optional[str] = typer.Option(
-        None, "--filter", "-f", help="RQL filter expression (e.g., 'eq(attributes/location,\"kitchen\")')"
+        None, help="RQL filter expression (e.g., 'eq(attributes/location,\"kitchen\")')"
     ),
-    fields: Optional[str] = typer.Option(None, "--fields", help="Comma-separated list of fields to include"),
-    namespaces: Optional[str] = typer.Option(
-        None, "--namespaces", "-n", help="Comma-separated list of namespaces to search"
-    ),
-    option: Optional[str] = typer.Option(
-        None, "--option", "-o", help="Search options (e.g., 'size(10),sort(+thingId)')"
-    ),
-    timeout: Optional[str] = typer.Option(None, "--timeout", "-t", help="Request timeout (e.g., '30s', '1m')"),
+    fields: Optional[str] = typer.Option(None, help="Comma-separated list of fields to include"),
+    namespaces: Optional[str] = typer.Option(None, help="Comma-separated list of namespaces to search"),
+    option: Optional[str] = typer.Option(None, help="Search options (e.g., 'size(10),sort(+thingId)')"),
+    timeout: Optional[str] = typer.Option(None, help="Request timeout (e.g., '30s', '1m')"),
 ) -> None:
     """Search for things in Ditto."""
 
@@ -82,11 +78,9 @@ def query(
 @search_app.command()
 def count(
     filter: Optional[str] = typer.Option(
-        None, "--filter", "-f", help="RQL filter expression (e.g., 'eq(attributes/location,\"kitchen\")')"
+        None, help="RQL filter expression (e.g., 'eq(attributes/location,\"kitchen\")')"
     ),
-    namespaces: Optional[str] = typer.Option(
-        None, "--namespaces", "-n", help="Comma-separated list of namespaces to search"
-    ),
+    namespaces: Optional[str] = typer.Option(None, help="Comma-separated list of namespaces to search"),
 ) -> None:
     """List things from Ditto."""
 

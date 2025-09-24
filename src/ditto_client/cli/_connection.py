@@ -51,8 +51,6 @@ def create(
 def list(
     fields: Optional[str] = typer.Option(
         None,
-        "--fields",
-        "-f",
         help="Comma-separated list of fields to include (e.g., 'id,connectionStatus,uri')",
     ),
 ) -> None:
@@ -102,7 +100,7 @@ def list(
 @connection_app.command()
 def get(
     connection_id: str = typer.Argument(..., help="The ID of the connection to retrieve"),
-    fields: Optional[str] = typer.Option(None, "--fields", "-f", help="Comma-separated list of fields to include"),
+    fields: Optional[str] = typer.Option(None, help="Comma-separated list of fields to include"),
 ) -> None:
     """Get a specific connection by ID."""
 
@@ -132,7 +130,7 @@ def get(
 @connection_app.command()
 def delete(
     connection_id: str = typer.Argument(..., help="The ID of the connection to delete"),
-    force: bool = typer.Option(False, "--force", help="Skip confirmation prompt"),
+    force: bool = typer.Option(False, help="Skip confirmation prompt"),
 ) -> None:
     """Delete a connection."""
 

@@ -86,7 +86,7 @@ def entries(
 @policy_app.command()
 def delete(
     policy_id: str = typer.Argument(..., help="The ID of the policy to delete"),
-    force: bool = typer.Option(False, "--force", help="Skip confirmation prompt"),
+    force: bool = typer.Option(False, help="Skip confirmation prompt"),
 ) -> None:
     """Delete a policy."""
 
