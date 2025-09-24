@@ -30,7 +30,7 @@ def create(
         policy_data = json.loads(policy_file.read_text())
 
         # Create the new policy
-        new_policy = NewPolicy(**policy_data)
+        new_policy = NewPolicy(additional_data=policy_data)
 
         response = await client.api.two.policies.by_policy_id(policy_id).put(body=new_policy)
 
@@ -64,6 +64,26 @@ def get(
 
 
 @policy_app.command()
+def entries(
+    policy_id: str = typer.Argument(..., help="The ID of the policy"),
+) -> None:
+    """List policy entries."""
+
+    async def _run() -> None:
+        client = create_ditto_client()
+
+        response = await client.api.two.policies.by_policy_id(policy_id).entries.get()
+
+        if not response:
+            rprint("[yellow]No policy entries found[/yellow]")
+            return
+
+        rprint(response)
+
+    asyncio.run(_run())
+
+
+@policy_app.command()
 def delete(
     policy_id: str = typer.Argument(..., help="The ID of the policy to delete"),
     confirm: bool = typer.Option(False, "--confirm", help="Skip confirmation prompt"),
@@ -80,26 +100,5 @@ def delete(
 
         await client.api.two.policies.by_policy_id(policy_id).delete()
         rprint(f"[green]Successfully deleted policy '{policy_id}'[/green]")
-
-    asyncio.run(_run())
-
-
-@policy_app.command()
-def entries(
-    policy_id: str = typer.Argument(..., help="The ID of the policy"),
-    subject_id: Optional[str] = typer.Option(None, "--subject-id", help="Filter by subject ID"),
-) -> None:
-    """List policy entries."""
-
-    async def _run() -> None:
-        client = create_ditto_client()
-
-        response = await client.api.two.policies.by_policy_id(policy_id).entries.get()
-
-        if not response:
-            rprint("[yellow]No policy entries found[/yellow]")
-            return
-
-        rprint(response)
 
     asyncio.run(_run())

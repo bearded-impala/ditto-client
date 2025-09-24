@@ -1,6 +1,8 @@
 # ruff: noqa: B008
 
 import asyncio
+import json
+from pathlib import Path
 from typing import Optional
 
 import typer
@@ -24,18 +26,18 @@ connection_app = Typer()
 @connection_app.command()
 def create(
     connection_id: str = typer.Argument(..., help="The ID of the connection to create"),
-    definition: str = typer.Option(None, "--definition", "-d", help="Connection definition"),
+    connection_file: Path = typer.Argument(..., help="Path to connection definition"),
 ) -> None:
     """Create a new connection."""
 
     async def _run() -> None:
         client = create_devops_client()
 
-        # Build the connection data
-        connection_data = {}
+        # Read the connection data
+        connection_data = json.loads(connection_file.read_text())
 
-        if definition:
-            connection_data["additional_data"] = definition
+        # Create the new connection
+        new_connection = NewConnection(additional_data=connection_data)
 
         # Create the new connection
         new_connection = NewConnection(additional_data=connection_data)
@@ -69,7 +71,7 @@ def list(
             request_config = RequestConfiguration(query_parameters=query_params)
 
         response = await client.api.two.connections.get(request_configuration=request_config)
-        rprint(response)
+
         if not response:
             rprint("[yellow]No connections found[/yellow]")
             return

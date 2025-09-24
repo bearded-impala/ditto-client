@@ -1,13 +1,14 @@
 # ruff: noqa: B008
 
 import asyncio
+import os
 
 from rich import print as rprint
 from rich.console import Console
 from rich.table import Table
 from typer import Typer
 
-from ._utils import create_devops_client
+from ._utils import create_ditto_client
 
 devops_app = Typer()
 
@@ -17,7 +18,7 @@ def whoami() -> None:
     """Get current user information."""
 
     async def _run() -> None:
-        client = create_devops_client()
+        client = create_ditto_client()
 
         response = await client.api.two.whoami.get()
 

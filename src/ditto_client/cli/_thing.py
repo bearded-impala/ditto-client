@@ -37,12 +37,8 @@ def create(
         # Create the new thing
         new_thing = NewThing(additional_data=thing_data)
 
-        response = await client.api.two.things.by_thing_id(thing_id).put(body=new_thing)
-
-        if response:
-            rprint(f"[green]Successfully created thing '{thing_id}'[/green]")
-        else:
-            rprint(f"[red]Failed to create thing '{thing_id}'[/red]")
+        await client.api.two.things.by_thing_id(thing_id).put(body=new_thing)
+        rprint(f"[green]Successfully created thing '{thing_id}'[/green]")
 
     asyncio.run(_run())
 
