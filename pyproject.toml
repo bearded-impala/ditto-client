@@ -17,6 +17,9 @@ dependencies = [
     "microsoft-kiota-serialization-text>=1.9.7",
     "pydantic>=2.11.5",
     "pydantic-settings>=2.9.1",
+    "typer>=0.16.0",
+    "rich>=14.0.0",
+    "python-dotenv>=1.1.1",
 ]
 
 classifiers = [
@@ -33,6 +36,9 @@ classifiers = [
 
 [project.urls]
 repository = "https://github.com/ksachdeva/ditto-client"
+
+[project.scripts]
+ditto-client = "ditto_client.__main__:cli_app"
 
 [build-system]
 requires = ["hatchling"]
