@@ -103,7 +103,6 @@ dev = [
     { name = "pytest-asyncio" },
     { name = "pytest-mock" },
     { name = "pytest-xdist" },
-    { name = "rich" },
     { name = "ruff" },
 ]
 
@@ -134,7 +133,6 @@ dev = [
     { name = "pytest-asyncio", specifier = ">=0.24.0" },
     { name = "pytest-mock", specifier = ">=3.14.0" },
     { name = "pytest-xdist", specifier = ">=3.6.1" },
-    { name = "rich", specifier = ">=14.1.0" },
     { name = "ruff", specifier = ">=0.4.8" },
 ]
 
