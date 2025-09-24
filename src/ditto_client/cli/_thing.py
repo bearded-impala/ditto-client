@@ -22,6 +22,32 @@ thing_app = Typer()
 
 
 @thing_app.command()
+def create(
+    thing_id: str = typer.Argument(..., help="The ID of the thing to create"),
+    data_file: Path = typer.Argument(..., help="Path to JSON file containing thing additional data"),
+) -> None:
+    """Create a new thing."""
+
+    async def _run() -> None:
+        client = create_ditto_client()
+
+        # Build the thing data
+        thing_data = json.loads(data_file.read_text())
+
+        # Create the new thing
+        new_thing = NewThing(additional_data=thing_data)
+
+        response = await client.api.two.things.by_thing_id(thing_id).put(body=new_thing)
+
+        if response:
+            rprint(f"[green]Successfully created thing '{thing_id}'[/green]")
+        else:
+            rprint(f"[red]Failed to create thing '{thing_id}'[/red]")
+
+    asyncio.run(_run())
+
+
+@thing_app.command()
 def list(
     fields: Optional[str] = typer.Option(
         None, "--fields", "-f", help="Comma-separated list of fields to include (e.g., 'thingId,attributes,features')"
@@ -86,32 +112,6 @@ def get(
         if not response:
             rprint(f"[red]Thing '{thing_id}' not found[/red]")
             return
-
-    asyncio.run(_run())
-
-
-@thing_app.command()
-def create(
-    thing_id: str = typer.Argument(..., help="The ID of the thing to create"),
-    data_file: Path = typer.Argument(..., help="Path to JSON file containing thing additional data"),
-) -> None:
-    """Create a new thing."""
-
-    async def _run() -> None:
-        client = create_ditto_client()
-
-        # Build the thing data
-        thing_data = json.loads(data_file.read_text())
-
-        # Create the new thing
-        new_thing = NewThing(additional_data=thing_data)
-
-        response = await client.api.two.things.by_thing_id(thing_id).put(body=new_thing)
-
-        if response:
-            rprint(f"[green]Successfully created thing '{thing_id}'[/green]")
-        else:
-            rprint(f"[red]Failed to create thing '{thing_id}'[/red]")
 
     asyncio.run(_run())
 

@@ -17,26 +17,6 @@ policy_app = Typer()
 
 
 @policy_app.command()
-def get(
-    policy_id: str = typer.Argument(..., help="The ID of the policy to retrieve"),
-) -> None:
-    """Get a specific policy by ID."""
-
-    async def _run() -> None:
-        client = create_ditto_client()
-
-        response = await client.api.two.policies.by_policy_id(policy_id).get()
-
-        if not response:
-            rprint(f"[red]Policy '{policy_id}' not found[/red]")
-            return
-
-        rprint(response)
-
-    asyncio.run(_run())
-
-
-@policy_app.command()
 def create(
     policy_id: str = typer.Argument(..., help="The ID of the policy to create"),
     policy_file: Path = typer.Argument(..., help="Path to JSON file containing policy definition"),
@@ -59,6 +39,26 @@ def create(
             rprint(response)
         else:
             rprint(f"[red]Failed to create policy '{policy_id}'[/red]")
+
+    asyncio.run(_run())
+
+
+@policy_app.command()
+def get(
+    policy_id: str = typer.Argument(..., help="The ID of the policy to retrieve"),
+) -> None:
+    """Get a specific policy by ID."""
+
+    async def _run() -> None:
+        client = create_ditto_client()
+
+        response = await client.api.two.policies.by_policy_id(policy_id).get()
+
+        if not response:
+            rprint(f"[red]Policy '{policy_id}' not found[/red]")
+            return
+
+        rprint(response)
 
     asyncio.run(_run())
 

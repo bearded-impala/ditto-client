@@ -22,6 +22,30 @@ connection_app = Typer()
 
 
 @connection_app.command()
+def create(
+    connection_id: str = typer.Argument(..., help="The ID of the connection to create"),
+    definition: str = typer.Option(None, "--definition", "-d", help="Connection definition"),
+) -> None:
+    """Create a new connection."""
+
+    async def _run() -> None:
+        client = create_devops_client()
+
+        # Build the connection data
+        connection_data = {}
+
+        if definition:
+            connection_data["additional_data"] = definition
+
+        # Create the new connection
+        new_connection = NewConnection(additional_data=connection_data)
+
+        await client.api.two.connections.by_connection_id(connection_id).put(body=new_connection)
+
+    asyncio.run(_run())
+
+
+@connection_app.command()
 def list(
     fields: Optional[str] = typer.Option(
         None,
@@ -99,30 +123,6 @@ def get(
             return
 
         rprint(response)
-
-    asyncio.run(_run())
-
-
-@connection_app.command()
-def create(
-    connection_id: str = typer.Argument(..., help="The ID of the connection to create"),
-    definition: str = typer.Option(None, "--definition", "-d", help="Connection definition"),
-) -> None:
-    """Create a new connection."""
-
-    async def _run() -> None:
-        client = create_devops_client()
-
-        # Build the connection data
-        connection_data = {}
-
-        if definition:
-            connection_data["additional_data"] = definition
-
-        # Create the new connection
-        new_connection = NewConnection(additional_data=connection_data)
-
-        await client.api.two.connections.by_connection_id(connection_id).put(body=new_connection)
 
     asyncio.run(_run())
 
