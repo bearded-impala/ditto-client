@@ -10,12 +10,13 @@ from rich.console import Console
 from rich.table import Table
 from typer import Typer
 
-from ditto_client.cli._utils import create_client
 from ditto_client.generated.api.two.connections.connections_request_builder import ConnectionsRequestBuilder
 from ditto_client.generated.api.two.connections.item.with_connection_item_request_builder import (
     WithConnectionItemRequestBuilder,
 )
 from ditto_client.generated.models.new_connection import NewConnection
+
+from ._utils import create_devops_client
 
 connection_app = Typer()
 
@@ -32,7 +33,7 @@ def list(
     """List connections from Ditto."""
 
     async def _run() -> None:
-        client = create_client("devops")
+        client = create_devops_client()
 
         # Build query parameters if provided
         request_config = None
@@ -80,7 +81,7 @@ def get(
     """Get a specific connection by ID."""
 
     async def _run() -> None:
-        client = create_client("devops")
+        client = create_devops_client()
 
         # Build query parameters if provided
         request_config = None
@@ -110,7 +111,7 @@ def create(
     """Create a new connection."""
 
     async def _run() -> None:
-        client = create_client("devops")
+        client = create_devops_client()
 
         # Build the connection data
         connection_data = {}
@@ -140,7 +141,7 @@ def delete(
             return
 
     async def _run() -> None:
-        client = create_client("devops")
+        client = create_devops_client()
 
         await client.api.two.connections.by_connection_id(connection_id).delete()
         rprint(f"[green]Successfully deleted connection '{connection_id}'[/green]")

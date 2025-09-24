@@ -8,8 +8,9 @@ import typer
 from rich import print as rprint
 from typer import Typer
 
-from ditto_client.cli._utils import create_client
 from ditto_client.generated.models.permission_check_request import PermissionCheckRequest
+
+from ._utils import create_devops_client
 
 permission_app = Typer()
 
@@ -21,7 +22,7 @@ def check(
     """Check permissions on specified resources."""
 
     async def _run() -> None:
-        client = create_client("devops")
+        client = create_devops_client()
 
         # Read the permission check request data
         request_data = json.loads(request_file.read_text())

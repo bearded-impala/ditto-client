@@ -12,9 +12,10 @@ from rich.console import Console
 from rich.table import Table
 from typer import Typer
 
-from ditto_client.cli._utils import create_client
 from ditto_client.generated.devops.logging.logging_request_builder import LoggingRequestBuilder
 from ditto_client.generated.models.logging_update_fields import LoggingUpdateFields
+
+from ._utils import create_devops_client
 
 logging_app = Typer()
 
@@ -27,7 +28,7 @@ def get(
     """Get logging configuration from Ditto services."""
 
     async def _run() -> None:
-        client = create_client("devops")
+        client = create_devops_client()
 
         if module_name:
             # Get module-specific logging config
@@ -54,7 +55,7 @@ def update(
     """Update logging configuration for Ditto services."""
 
     async def _run() -> None:
-        client = create_client("devops")
+        client = create_devops_client()
 
         # Read the logging update data
         update_data = json.loads(update_file.read_text())

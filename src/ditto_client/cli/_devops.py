@@ -7,7 +7,7 @@ from rich.console import Console
 from rich.table import Table
 from typer import Typer
 
-from ditto_client.cli._utils import create_client
+from ._utils import create_devops_client
 
 devops_app = Typer()
 
@@ -17,7 +17,7 @@ def whoami() -> None:
     """Get current user information."""
 
     async def _run() -> None:
-        client = create_client()
+        client = create_devops_client()
 
         response = await client.api.two.whoami.get()
 

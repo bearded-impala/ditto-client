@@ -9,8 +9,9 @@ import typer
 from rich import print as rprint
 from typer import Typer
 
-from ditto_client.cli._utils import create_client
 from ditto_client.generated.models.policy import Policy
+
+from ._utils import create_ditto_client
 
 policy_app = Typer()
 
@@ -22,7 +23,7 @@ def get(
     """Get a specific policy by ID."""
 
     async def _run() -> None:
-        client = create_client()
+        client = create_ditto_client()
 
         response = await client.api.two.policies.by_policy_id(policy_id).get()
 
@@ -43,7 +44,7 @@ def create(
     """Create a new policy."""
 
     async def _run() -> None:
-        client = create_client()
+        client = create_ditto_client()
 
         # Read the policy data
         policy_data = json.loads(policy_file.read_text())
@@ -75,7 +76,7 @@ def delete(
             return
 
     async def _run() -> None:
-        client = create_client()
+        client = create_ditto_client()
 
         await client.api.two.policies.by_policy_id(policy_id).delete()
         rprint(f"[green]Successfully deleted policy '{policy_id}'[/green]")
@@ -91,7 +92,7 @@ def entries(
     """List policy entries."""
 
     async def _run() -> None:
-        client = create_client()
+        client = create_ditto_client()
 
         response = await client.api.two.policies.by_policy_id(policy_id).entries.get()
 

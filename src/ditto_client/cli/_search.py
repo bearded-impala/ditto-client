@@ -10,9 +10,10 @@ from rich.console import Console
 from rich.table import Table
 from typer import Typer
 
-from ditto_client.cli._utils import create_client
 from ditto_client.generated.api.two.search.things.count.count_request_builder import CountRequestBuilder
 from ditto_client.generated.api.two.search.things.things_request_builder import ThingsRequestBuilder
+
+from ._utils import create_ditto_client
 
 search_app = Typer()
 
@@ -34,7 +35,7 @@ def query(
     """Search for things in Ditto."""
 
     async def _run() -> None:
-        client = create_client()
+        client = create_ditto_client()
 
         # Build query parameters if provided
         request_config = None
@@ -89,7 +90,7 @@ def count(
     """List things from Ditto."""
 
     async def _run() -> None:
-        client = create_client()
+        client = create_ditto_client()
 
         # Build query parameters if provided
         request_config = None

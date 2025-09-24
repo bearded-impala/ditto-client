@@ -12,10 +12,11 @@ from rich.console import Console
 from rich.table import Table
 from typer import Typer
 
-from ditto_client.cli._utils import create_client
 from ditto_client.generated.api.two.things.things_request_builder import ThingsRequestBuilder
 from ditto_client.generated.models.new_thing import NewThing
 from ditto_client.generated.models.patch_thing import PatchThing
+
+from ._utils import create_ditto_client
 
 thing_app = Typer()
 
@@ -31,7 +32,7 @@ def list(
     """List things from Ditto."""
 
     async def _run() -> None:
-        client = create_client()
+        client = create_ditto_client()
 
         # Build query parameters if provided
         request_config = None
@@ -77,7 +78,7 @@ def get(
     """Get a specific thing by ID."""
 
     async def _run() -> None:
-        client = create_client()
+        client = create_ditto_client()
 
         response = await client.api.two.things.by_thing_id(thing_id).get()
         rprint(response)
@@ -97,7 +98,7 @@ def create(
     """Create a new thing."""
 
     async def _run() -> None:
-        client = create_client()
+        client = create_ditto_client()
 
         # Build the thing data
         thing_data = json.loads(data_file.read_text())
@@ -123,7 +124,7 @@ def update(
     """Update a thing using JSON patch."""
 
     async def _run() -> None:
-        client = create_client()
+        client = create_ditto_client()
 
         # Read the patch data
         patch_data = json.loads(patch_file.read_text())
@@ -150,7 +151,7 @@ def delete(
             return
 
     async def _run() -> None:
-        client = create_client()
+        client = create_ditto_client()
 
         await client.api.two.things.by_thing_id(thing_id).delete()
         rprint(f"[green]Successfully deleted thing '{thing_id}'[/green]")
