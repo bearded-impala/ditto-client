@@ -14,25 +14,10 @@ from rich.console import Console
 from rich.table import Table
 from typer import Typer
 
-from ditto_client.basic_auth import BasicAuthProvider
+from ditto_client.cli.utils.create_client import create_client
 from ditto_client.generated.api.two.things.things_request_builder import ThingsRequestBuilder
-from ditto_client.generated.ditto_client import DittoClient
 from ditto_client.generated.models.new_thing import NewThing
 from ditto_client.generated.models.patch_thing import PatchThing
-
-
-def _create_client() -> DittoClient:
-    """Create and configure a DittoClient instance."""
-    username = os.getenv("DITTO_USERNAME", "ditto")
-    password = os.getenv("DITTO_PASSWORD", "ditto")
-    base_url = os.getenv("DITTO_BASE_URL", "http://host.docker.internal:8080")
-
-    auth_provider = BasicAuthProvider(user_name=username, password=password)
-    request_adapter = HttpxRequestAdapter(auth_provider)
-    request_adapter.base_url = base_url
-
-    return DittoClient(request_adapter)
-
 
 thing_app = Typer()
 
@@ -48,35 +33,26 @@ def list(
     """List things from Ditto."""
 
     async def _run() -> None:
-        try:
-            client = _create_client()
+        client = create_client()
 
-            # Build query parameters if provided
-            request_config = None
-            if fields or ids or timeout:
-                query_params = ThingsRequestBuilder.ThingsRequestBuilderGetQueryParameters()
-                if fields:
-                    query_params.fields = fields
-                if ids:
-                    query_params.ids = ids
-                if timeout:
-                    query_params.timeout = timeout
+        # Build query parameters if provided
+        request_config = None
+        if fields or ids or timeout:
+            query_params = ThingsRequestBuilder.ThingsRequestBuilderGetQueryParameters()
+            if fields:
+                query_params.fields = fields
+            if ids:
+                query_params.ids = ids
+            if timeout:
+                query_params.timeout = timeout
 
-                request_config = RequestConfiguration(query_parameters=query_params)
+            request_config = RequestConfiguration(query_parameters=query_params)
 
-            response = await client.api.two.things.get(request_configuration=request_config)
+        response = await client.api.two.things.get(request_configuration=request_config)
 
-            if not response:
-                rprint("[yellow]No things found[/yellow]")
-                return
-        except Exception as e:
-            if "connection" in str(e).lower() or "connect" in str(e).lower():
-                rprint("[red]Connection failed![/red]")
-                rprint("[yellow]Make sure Ditto is running and accessible.[/yellow]")
-                return
-            else:
-                rprint(f"[red]Error: {e}[/red]")
-                return
+        if not response:
+            rprint("[yellow]No things found[/yellow]")
+            return
 
         # Create a table for better display
         table = Table(title="Ditto Things")
@@ -103,23 +79,14 @@ def get(
     """Get a specific thing by ID."""
 
     async def _run() -> None:
-        try:
-            client = _create_client()
+        client = create_client()
 
-            response = await client.api.two.things.by_thing_id(thing_id).get()
-            rprint(response)
+        response = await client.api.two.things.by_thing_id(thing_id).get()
+        rprint(response)
 
-            if not response:
-                rprint(f"[red]Thing '{thing_id}' not found[/red]")
-                return
-        except Exception as e:
-            if "connection" in str(e).lower() or "connect" in str(e).lower():
-                rprint("[red]Connection failed![/red]")
-                rprint("[yellow]Make sure Ditto is running and accessible.[/yellow]")
-                return
-            else:
-                rprint(f"[red]Error: {e}[/red]")
-                return
+        if not response:
+            rprint(f"[red]Thing '{thing_id}' not found[/red]")
+            return
 
     asyncio.run(_run())
 
@@ -132,7 +99,7 @@ def create(
     """Create a new thing."""
 
     async def _run() -> None:
-        client = _create_client()
+        client = create_client()
 
         # Build the thing data
         thing_data = json.loads(data_file.read_text())
@@ -158,7 +125,7 @@ def update(
     """Update a thing using JSON patch."""
 
     async def _run() -> None:
-        client = _create_client()
+        client = create_client()
 
         # Read the patch data
         patch_data = json.loads(patch_file.read_text())
@@ -166,12 +133,8 @@ def update(
         # Create the patch thing
         patch_thing = PatchThing(additional_data=patch_data)
 
-        try:
-            await client.api.two.things.by_thing_id(thing_id).patch(body=patch_thing)
-            rprint(f"[green]Successfully updated thing '{thing_id}'[/green]")
-        except Exception as e:
-            rprint(f"[red]Error updating thing '{thing_id}': {e}[/red]")
-            return
+        await client.api.two.things.by_thing_id(thing_id).patch(body=patch_thing)
+        rprint(f"[green]Successfully updated thing '{thing_id}'[/green]")
 
     asyncio.run(_run())
 
@@ -189,7 +152,7 @@ def delete(
             return
 
     async def _run() -> None:
-        client = _create_client()
+        client = create_client()
 
         await client.api.two.things.by_thing_id(thing_id).delete()
         rprint(f"[green]Successfully deleted thing '{thing_id}'[/green]")

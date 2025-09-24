@@ -13,23 +13,8 @@ from rich.console import Console
 from rich.table import Table
 from typer import Typer
 
-from ditto_client.basic_auth import BasicAuthProvider
-from ditto_client.generated.ditto_client import DittoClient
+from ditto_client.cli.utils.create_client import create_client
 from ditto_client.generated.models.policy import Policy
-
-
-def _create_client() -> DittoClient:
-    """Create and configure a DittoClient instance."""
-    username = os.getenv("DITTO_USERNAME", "ditto")
-    password = os.getenv("DITTO_PASSWORD", "ditto")
-    base_url = os.getenv("DITTO_BASE_URL", "http://host.docker.internal:8080")
-
-    auth_provider = BasicAuthProvider(user_name=username, password=password)
-    request_adapter = HttpxRequestAdapter(auth_provider)
-    request_adapter.base_url = base_url
-
-    return DittoClient(request_adapter)
-
 
 policy_app = Typer()
 
@@ -41,7 +26,7 @@ def get(
     """Get a specific policy by ID."""
 
     async def _run() -> None:
-        client = _create_client()
+        client = create_client()
 
         response = await client.api.two.policies.by_policy_id(policy_id).get()
 
@@ -62,7 +47,7 @@ def create(
     """Create a new policy."""
 
     async def _run() -> None:
-        client = _create_client()
+        client = create_client()
 
         # Read the policy data
         policy_data = json.loads(policy_file.read_text())
@@ -94,7 +79,7 @@ def delete(
             return
 
     async def _run() -> None:
-        client = _create_client()
+        client = create_client()
 
         await client.api.two.policies.by_policy_id(policy_id).delete()
         rprint(f"[green]Successfully deleted policy '{policy_id}'[/green]")
@@ -110,7 +95,7 @@ def entries(
     """List policy entries."""
 
     async def _run() -> None:
-        client = _create_client()
+        client = create_client()
 
         response = await client.api.two.policies.by_policy_id(policy_id).entries.get()
 

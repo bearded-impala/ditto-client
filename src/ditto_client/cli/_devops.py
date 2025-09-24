@@ -10,22 +10,7 @@ from rich.console import Console
 from rich.table import Table
 from typer import Typer
 
-from ditto_client.basic_auth import BasicAuthProvider
-from ditto_client.generated.ditto_client import DittoClient
-
-
-def _create_client() -> DittoClient:
-    """Create and configure a DittoClient instance."""
-    username = os.getenv("DITTO_USERNAME", "ditto")
-    password = os.getenv("DITTO_PASSWORD", "ditto")
-    base_url = os.getenv("DITTO_BASE_URL", "http://host.docker.internal:8080")
-
-    auth_provider = BasicAuthProvider(user_name=username, password=password)
-    request_adapter = HttpxRequestAdapter(auth_provider)
-    request_adapter.base_url = base_url
-
-    return DittoClient(request_adapter)
-
+from ditto_client.cli.utils.create_client import create_client
 
 devops_app = Typer()
 
@@ -35,7 +20,7 @@ def whoami() -> None:
     """Get current user information."""
 
     async def _run() -> None:
-        client = _create_client()
+        client = create_client()
 
         response = await client.api.two.whoami.get()
 

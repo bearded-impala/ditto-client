@@ -14,29 +14,14 @@ from rich.console import Console
 from rich.table import Table
 from typer import Typer
 
-from ditto_client.basic_auth import BasicAuthProvider
+from ditto_client.cli.utils.create_client import create_client
 from ditto_client.generated.api.two.connections.connections_request_builder import (
     ConnectionsRequestBuilder,
 )
 from ditto_client.generated.api.two.connections.item.with_connection_item_request_builder import (
     WithConnectionItemRequestBuilder,
 )
-from ditto_client.generated.ditto_client import DittoClient
 from ditto_client.generated.models.new_connection import NewConnection
-
-
-def _create_client() -> DittoClient:
-    """Create and configure a DittoClient instance."""
-    username = os.getenv("DITTO_USERNAME", "devops")
-    password = os.getenv("DITTO_PASSWORD", "foobar")
-    base_url = os.getenv("DITTO_BASE_URL", "http://host.docker.internal:8080")
-
-    auth_provider = BasicAuthProvider(user_name=username, password=password)
-    request_adapter = HttpxRequestAdapter(auth_provider)
-    request_adapter.base_url = base_url
-
-    return DittoClient(request_adapter)
-
 
 connection_app = Typer()
 
@@ -50,31 +35,22 @@ def list(
     """List connections from Ditto."""
 
     async def _run() -> None:
-        try:
-            client = _create_client()
+        client = create_client("devops")
 
-            # Build query parameters if provided
-            request_config = None
+        # Build query parameters if provided
+        request_config = None
+        if fields:
+            query_params = ConnectionsRequestBuilder.ConnectionsRequestBuilderGetQueryParameters()
             if fields:
-                query_params = ConnectionsRequestBuilder.ConnectionsRequestBuilderGetQueryParameters()
-                if fields:
-                    query_params.fields = fields
+                query_params.fields = fields
 
-                request_config = RequestConfiguration(query_parameters=query_params)
+            request_config = RequestConfiguration(query_parameters=query_params)
 
-            response = await client.api.two.connections.get(request_configuration=request_config)
-            rprint(response)
-            if not response:
-                rprint("[yellow]No connections found[/yellow]")
-                return
-        except Exception as e:
-            if "connection" in str(e).lower() or "connect" in str(e).lower():
-                rprint("[red]Connection failed![/red]")
-                rprint("[yellow]Make sure Ditto is running and accessible.[/yellow]")
-                return
-            else:
-                rprint(f"[red]Error: {e}[/red]")
-                return
+        response = await client.api.two.connections.get(request_configuration=request_config)
+        rprint(response)
+        if not response:
+            rprint("[yellow]No connections found[/yellow]")
+            return
 
         # Create a table for better display
         table = Table(title="Ditto Connections")
@@ -107,31 +83,22 @@ def get(
     """Get a specific connection by ID."""
 
     async def _run() -> None:
-        try:
-            client = _create_client()
+        client = create_client("devops")
 
-            # Build query parameters if provided
-            request_config = None
-            if fields:
-                query_params = WithConnectionItemRequestBuilder.WithConnectionItemRequestBuilderGetQueryParameters()
-                query_params.fields = fields
-                request_config = RequestConfiguration(query_parameters=query_params)
+        # Build query parameters if provided
+        request_config = None
+        if fields:
+            query_params = WithConnectionItemRequestBuilder.WithConnectionItemRequestBuilderGetQueryParameters()
+            query_params.fields = fields
+            request_config = RequestConfiguration(query_parameters=query_params)
 
-            response = await client.api.two.connections.by_connection_id(connection_id).get(
-                request_configuration=request_config
-            )
+        response = await client.api.two.connections.by_connection_id(connection_id).get(
+            request_configuration=request_config
+        )
 
-            if not response:
-                rprint(f"[red]Thing '{connection_id}' not found[/red]")
-                return
-        except Exception as e:
-            if "connection" in str(e).lower() or "connect" in str(e).lower():
-                rprint("[red]Connection failed![/red]")
-                rprint("[yellow]Make sure Ditto is running and accessible.[/yellow]")
-                return
-            else:
-                rprint(f"[red]Error: {e}[/red]")
-                return
+        if not response:
+            rprint(f"[red]Thing '{connection_id}' not found[/red]")
+            return
 
         rprint(response)
 
@@ -146,7 +113,7 @@ def create(
     """Create a new connection."""
 
     async def _run() -> None:
-        client = _create_client()
+        client = create_client("devops")
 
         # Build the connection data
         connection_data = {}
@@ -176,7 +143,7 @@ def delete(
             return
 
     async def _run() -> None:
-        client = _create_client()
+        client = create_client("devops")
 
         await client.api.two.connections.by_connection_id(connection_id).delete()
         rprint(f"[green]Successfully deleted connection '{connection_id}'[/green]")

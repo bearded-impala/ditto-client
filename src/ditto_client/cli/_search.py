@@ -14,30 +14,15 @@ from rich.console import Console
 from rich.table import Table
 from typer import Typer
 
-from ditto_client.basic_auth import BasicAuthProvider
+from ditto_client.cli.utils.create_client import create_client
 from ditto_client.generated.api.two.search.things.count.count_request_builder import CountRequestBuilder
 from ditto_client.generated.api.two.search.things.things_request_builder import ThingsRequestBuilder
-from ditto_client.generated.ditto_client import DittoClient
-
-
-def _create_client() -> DittoClient:
-    """Create and configure a DittoClient instance."""
-    username = os.getenv("DITTO_USERNAME", "ditto")
-    password = os.getenv("DITTO_PASSWORD", "ditto")
-    base_url = os.getenv("DITTO_BASE_URL", "http://host.docker.internal:8080")
-
-    auth_provider = BasicAuthProvider(user_name=username, password=password)
-    request_adapter = HttpxRequestAdapter(auth_provider)
-    request_adapter.base_url = base_url
-
-    return DittoClient(request_adapter)
-
 
 search_app = Typer()
 
 
 @search_app.command()
-def list(
+def query(
     filter: Optional[str] = typer.Option(
         None, "--filter", "-f", help="RQL filter expression (e.g., 'eq(attributes/location,\"kitchen\")')"
     ),
@@ -53,39 +38,30 @@ def list(
     """Search for things in Ditto."""
 
     async def _run() -> None:
-        try:
-            client = _create_client()
+        client = create_client()
 
-            # Build query parameters if provided
-            request_config = None
-            if filter or fields or namespaces or option or timeout:
-                query_params = ThingsRequestBuilder.ThingsRequestBuilderGetQueryParameters()
-                if filter:
-                    query_params.filter = filter
-                if fields:
-                    query_params.fields = fields
-                if namespaces:
-                    query_params.namespaces = namespaces
-                if option:
-                    query_params.option = option
-                if timeout:
-                    query_params.timeout = timeout
+        # Build query parameters if provided
+        request_config = None
+        if filter or fields or namespaces or option or timeout:
+            query_params = ThingsRequestBuilder.ThingsRequestBuilderGetQueryParameters()
+            if filter:
+                query_params.filter = filter
+            if fields:
+                query_params.fields = fields
+            if namespaces:
+                query_params.namespaces = namespaces
+            if option:
+                query_params.option = option
+            if timeout:
+                query_params.timeout = timeout
 
-                request_config = RequestConfiguration(query_parameters=query_params)
+            request_config = RequestConfiguration(query_parameters=query_params)
 
-            response = await client.api.two.search.things.get(request_configuration=request_config)
+        response = await client.api.two.search.things.get(request_configuration=request_config)
 
-            if not response:
-                rprint("[yellow]No things found[/yellow]")
-                return
-        except Exception as e:
-            if "connection" in str(e).lower() or "connect" in str(e).lower():
-                rprint("[red]Connection failed![/red]")
-                rprint("[yellow]Make sure Ditto is running and accessible.[/yellow]")
-                return
-            else:
-                rprint(f"[red]Error: {e}[/red]")
-                return
+        if not response:
+            rprint("[yellow]No things found[/yellow]")
+            return
 
         # Create a table for better display
         table = Table(title="Ditto Things")
@@ -117,24 +93,20 @@ def count(
     """List things from Ditto."""
 
     async def _run() -> None:
-        try:
-            client = _create_client()
+        client = create_client()
 
-            # Build query parameters if provided
-            request_config = None
-            if filter or namespaces:
-                query_params = CountRequestBuilder.CountRequestBuilderGetQueryParameters()
-                if filter:
-                    query_params.filter = filter
-                if namespaces:
-                    query_params.namespaces = namespaces
+        # Build query parameters if provided
+        request_config = None
+        if filter or namespaces:
+            query_params = CountRequestBuilder.CountRequestBuilderGetQueryParameters()
+            if filter:
+                query_params.filter = filter
+            if namespaces:
+                query_params.namespaces = namespaces
 
-                request_config = RequestConfiguration(query_parameters=query_params)
+            request_config = RequestConfiguration(query_parameters=query_params)
 
-            response = await client.api.two.search.things.count.get(request_configuration=request_config)
-            rprint(f"[green]Total things: {response}[/green]")
-        except Exception as e:
-            rprint(f"[red]Error: {e}[/red]")
-            return
+        response = await client.api.two.search.things.count.get(request_configuration=request_config)
+        rprint(f"[green]Total things: {response}[/green]")
 
     asyncio.run(_run())
