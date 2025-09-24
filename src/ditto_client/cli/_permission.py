@@ -2,18 +2,13 @@
 
 import asyncio
 import json
-import os
 from pathlib import Path
-from typing import Optional
 
 import typer
-from kiota_http.httpx_request_adapter import HttpxRequestAdapter
 from rich import print as rprint
-from rich.console import Console
-from rich.table import Table
 from typer import Typer
 
-from ditto_client.cli.utils.create_client import create_client
+from ditto_client.cli._utils import create_client
 from ditto_client.generated.models.permission_check_request import PermissionCheckRequest
 
 permission_app = Typer()

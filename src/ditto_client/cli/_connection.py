@@ -1,23 +1,17 @@
 # ruff: noqa: B008
 
 import asyncio
-import json
-import os
-from pathlib import Path
 from typing import Optional
 
 import typer
 from kiota_abstractions.base_request_configuration import RequestConfiguration
-from kiota_http.httpx_request_adapter import HttpxRequestAdapter
 from rich import print as rprint
 from rich.console import Console
 from rich.table import Table
 from typer import Typer
 
-from ditto_client.cli.utils.create_client import create_client
-from ditto_client.generated.api.two.connections.connections_request_builder import (
-    ConnectionsRequestBuilder,
-)
+from ditto_client.cli._utils import create_client
+from ditto_client.generated.api.two.connections.connections_request_builder import ConnectionsRequestBuilder
 from ditto_client.generated.api.two.connections.item.with_connection_item_request_builder import (
     WithConnectionItemRequestBuilder,
 )
@@ -29,7 +23,10 @@ connection_app = Typer()
 @connection_app.command()
 def list(
     fields: Optional[str] = typer.Option(
-        None, "--fields", "-f", help="Comma-separated list of fields to include (e.g., 'id,connectionStatus,uri')"
+        None,
+        "--fields",
+        "-f",
+        help="Comma-separated list of fields to include (e.g., 'id,connectionStatus,uri')",
     ),
 ) -> None:
     """List connections from Ditto."""

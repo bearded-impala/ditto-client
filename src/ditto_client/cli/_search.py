@@ -1,20 +1,16 @@
 # ruff: noqa: B008
 
 import asyncio
-import json
-import os
-from pathlib import Path
 from typing import Optional
 
 import typer
 from kiota_abstractions.base_request_configuration import RequestConfiguration
-from kiota_http.httpx_request_adapter import HttpxRequestAdapter
 from rich import print as rprint
 from rich.console import Console
 from rich.table import Table
 from typer import Typer
 
-from ditto_client.cli.utils.create_client import create_client
+from ditto_client.cli._utils import create_client
 from ditto_client.generated.api.two.search.things.count.count_request_builder import CountRequestBuilder
 from ditto_client.generated.api.two.search.things.things_request_builder import ThingsRequestBuilder
 

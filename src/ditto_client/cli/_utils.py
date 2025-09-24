@@ -10,15 +10,6 @@ from ditto_client.generated.ditto_client import DittoClient
 
 
 def create_client(mode: Optional[str] = None) -> DittoClient:
-    """Create and configure a DittoClient instance.
-
-    Args:
-        mode: Optional mode for credential selection. If "devops", uses devops credentials.
-              Otherwise uses default ditto credentials.
-
-    Returns:
-        Configured DittoClient instance.
-    """
     base_url = os.getenv("DITTO_BASE_URL", "http://host.docker.internal:8080")
 
     if mode == "devops":

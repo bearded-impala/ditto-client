@@ -1,21 +1,13 @@
 # ruff: noqa: B008
 
 import asyncio
-import json
-import os
 from typing import Optional
 
 import typer
-from click import Argument
-from kiota_abstractions.base_request_configuration import RequestConfiguration
-from kiota_http.httpx_request_adapter import HttpxRequestAdapter
 from rich import print as rprint
-from rich.console import Console
-from rich.table import Table
 from typer import Typer
 
-from ditto_client.cli.utils.create_client import create_client
-from ditto_client.generated.devops.config.config_request_builder import ConfigRequestBuilder
+from ditto_client.cli._utils import create_client
 
 config_app = Typer()
 

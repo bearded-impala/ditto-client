@@ -1,16 +1,13 @@
 # ruff: noqa: B008
 
 import asyncio
-import os
 
-import typer
-from kiota_http.httpx_request_adapter import HttpxRequestAdapter
 from rich import print as rprint
 from rich.console import Console
 from rich.table import Table
 from typer import Typer
 
-from ditto_client.cli.utils.create_client import create_client
+from ditto_client.cli._utils import create_client
 
 devops_app = Typer()
 
