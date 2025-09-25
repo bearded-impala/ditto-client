@@ -15,6 +15,7 @@ from typer import Typer
 from ditto_client.generated.devops.logging.logging_request_builder import LoggingRequestBuilder
 from ditto_client.generated.models.logging_update_fields import LoggingUpdateFields
 from ditto_client.generated.models.module import Module
+from ditto_client.generated.models.module_updated_log_level import ModuleUpdatedLogLevel
 from ditto_client.generated.models.result_update_request import ResultUpdateRequest
 from ditto_client.generated.models.retrieve_logging_config import RetrieveLoggingConfig
 
@@ -25,7 +26,6 @@ logging_app = Typer()
 
 @logging_app.command()
 def get(
-    include_disabled: bool = typer.Option(False, help="Include disabled loggers"),
     module_name: Optional[str] = typer.Option(None, help="Module name to get logging config for"),
 ) -> None:
     """Get logging configuration from Ditto services."""
@@ -41,7 +41,6 @@ def get(
         else:
             # Get general logging config
             query_params = LoggingRequestBuilder.LoggingRequestBuilderGetQueryParameters()
-            query_params.include_disabled_loggers = include_disabled
             request_config = RequestConfiguration(query_parameters=query_params)
             response = await client.devops.logging.get(request_configuration=request_config)
 
@@ -57,6 +56,7 @@ def get(
 @logging_app.command()
 def update(
     update_file: Path = typer.Argument(..., help="Path to JSON file containing logging updates"),
+    module_name: Optional[str] = typer.Option(None, help="Module name to update logging config for"),
 ) -> None:
     """Update logging configuration for Ditto services."""
 
@@ -69,26 +69,13 @@ def update(
         # Create the logging update
         logging_update = LoggingUpdateFields(additional_data=update_data)
 
-        response: list[ResultUpdateRequest] | None = await client.devops.logging.put(body=logging_update)
+        response: ModuleUpdatedLogLevel | list[ResultUpdateRequest] | None
 
-        if response:
-            rprint("[green]Logging configuration updated successfully[/green]")
-            # Display update results
-            table = Table(title="Update Results")
-            table.add_column("Service", justify="left", style="cyan")
-            table.add_column("Status", justify="center", style="green")
-            table.add_column("Message", justify="left", style="yellow")
-
-            for result in response:
-                status = "Success" if hasattr(result, "success") and result.success else "Failed"
-                message = getattr(result, "message", "N/A") if hasattr(result, "message") else "N/A"
-                service = getattr(result, "service", "Unknown") if hasattr(result, "service") else "Unknown"
-
-                table.add_row(service, status, message)
-
-            console = Console()
-            console.print(table)
+        if module_name:
+            response = await client.devops.logging.by_module_name(module_name).put(body=logging_update)
         else:
-            rprint("[red]Failed to update logging configuration[/red]")
+            response = await client.devops.logging.put(body=logging_update)
+
+        rprint(response)
 
     asyncio.run(_run())

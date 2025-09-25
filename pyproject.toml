@@ -20,6 +20,7 @@ dependencies = [
     "typer>=0.16.0",
     "rich>=14.0.0",
     "python-dotenv>=1.1.1",
+    "jsonpatch>=1.33",
 ]
 
 classifiers = [
