@@ -74,16 +74,12 @@ export DITTO_DEVOPS_PASSWORD="foobar"
 
 #### Create a new policy.
 
-`ditto-client policy create <policy_id> <policy_file>`
-
 ```bash
 # Create a new policy
 ditto-client policy create "my.namespace:new-policy" examples/cli-examples/policy.json
 ```
 
 #### Retrieve a specific policy by ID.
-
-`ditto-client policy get <policy_id>`
 
 ```bash
 # Get a policy
@@ -92,16 +88,12 @@ ditto-client policy get "my.namespace:my-policy"
 
 #### List policy entries.
 
-`ditto-client policy entries <policy_id>`
-
 ```bash
 # List all policy entries
 ditto-client policy entries "my.namespace:my-policy"
 ```
 
 #### Delete policy.
-
-`ditto-client policy delete <policy_id>`
 
 ```bash
 # Delete a policy
@@ -114,16 +106,12 @@ ditto-client policy delete "my.namespace:my-policy"
 
 #### Create a new thing.
 
-`ditto-client thing create <thing_id> <data_file>`
-
 ```bash
 # Create a new thing
 ditto-client thing create "my.namespace:new-thing" examples/cli-examples/thing.json
 ```
 
 #### List all things with optional filtering.
-
-`ditto-client thing list`
 
 ```bash
 # List all things
@@ -138,8 +126,6 @@ ditto-client thing list --ids "my.namespace:new-thing"
 
 #### Retrieve a specific thing by ID.
 
-`ditto-client thing get <thing_id> [--revision <revision>]`
-
 ```bash
 # Get a specific thing
 ditto-client thing get "my.namespace:my-thing"
@@ -150,8 +136,6 @@ ditto-client thing get "my.namespace:my-thing" --revision 1
 
 #### Update a thing using JSON file.
 
-`ditto-client thing update <thing_id> <patch_file>`
-
 ```bash
 # Update a thing
 ditto-client thing update "my.namespace:my-thing" examples/cli-examples/thing.json
@@ -159,16 +143,12 @@ ditto-client thing update "my.namespace:my-thing" examples/cli-examples/thing.js
 
 #### Compare current thing with historical revision.
 
-`ditto-client thing diff <thing_id> <revision>`
-
 ```bash
 # Compare current state with revision 1
 ditto-client thing diff "my.namespace:my-thing" 1
 ```
 
 #### Delete a thing.
-
-`ditto-client thing delete <thing_id>`
 
 ```bash
 # Delete a thing
@@ -179,9 +159,10 @@ ditto-client thing delete "my.namespace:my-thing"
 
 ### Search Operations
 
-#### Search for things using RQL (Resource Query Language).
+Refer below documentation to understand RQL syntax:
+https://eclipse.dev/ditto/1.0/basic-rql.html
 
-`ditto-client search query`
+#### Search for things using RQL (Resource Query Language).
 
 ```bash
 # Search all things
@@ -199,8 +180,6 @@ ditto-client search query --namespaces "my.namespace"
 
 #### Count things matching search criteria.
 
-`ditto-client search count`
-
 ```bash
 # Count all things
 ditto-client search count
@@ -215,16 +194,12 @@ ditto-client search count --filter 'eq(attributes/location,"Kitchen")'
 
 #### Create a new connection.
 
-`ditto-client connection create <connection_id>`
-
 ```bash
 # Create a connection
 ditto-client connection create "new-connection" --definition "connection-config"
 ```
 
 #### List all connections.
-
-`ditto-client connection list`
 
 ```bash
 # List all connections
@@ -236,8 +211,6 @@ ditto-client connection list --fields "id,connectionStatus"
 
 #### Retrieve a specific connection by ID.
 
-`ditto-client connection get <connection_id>`
-
 ```bash
 # Get a connection
 ditto-client connection get "my-connection"
@@ -247,8 +220,6 @@ ditto-client connection get "my-connection" --fields "id,status"
 ```
 
 #### Delete a connection.
-
-`ditto-client connection delete <connection_id>`
 
 ```bash
 # Delete a connection
@@ -272,8 +243,6 @@ ditto-client config get
 
 #### Retrieve logging configuration.
 
-`ditto-client logging get`
-
 ```bash
 # Get logging configuration
 ditto-client logging get
@@ -283,8 +252,6 @@ ditto-client logging get --module "gateway"
 ```
 
 #### Update logging configuration.
-
-`ditto-client logging update <update_file>`
 
 ```bash
 # Update logging configuration
@@ -296,8 +263,6 @@ ditto-client logging update examples/cli-examples/logging.json
 ### Permission Management (DevOps)
 
 #### Check permissions on specified resources.
-
-`ditto-client permission check <request_file>`
 
 ```bash
 # Check permissions

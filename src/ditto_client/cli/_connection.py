@@ -130,11 +130,11 @@ def get(
 @connection_app.command()
 def delete(
     connection_id: str = typer.Argument(..., help="The ID of the connection to delete"),
-    force: bool = typer.Option(False, help="Skip confirmation prompt"),
+    confirm: bool = typer.Option(False, help="Skip confirmation prompt"),
 ) -> None:
     """Delete a connection."""
 
-    if not force:
+    if not confirm:
         if not typer.confirm(f"Are you sure you want to delete connection '{connection_id}'?"):
             rprint("[yellow]Operation cancelled[/yellow]")
             return
